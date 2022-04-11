@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH,END_LOADING,START_LOADING } from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -47,6 +47,18 @@ export const likePost = (id)=>async (dispatch) => {
     const { data } = await api.likePost(id);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
-    
+    console.log(error);
   }
 }
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
+      console.log(data);
+    dispatch({ type: FETCH_BY_SEARCH, payload: { data } });
+    // dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error);
+  }
+};

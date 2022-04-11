@@ -1,52 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
-import memories from "./images/memories.jpg";
-import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
-import useStyles from "./styles";
-import { useDispatch } from "react-redux";
-import { getPosts } from "./actions/posts";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Container } from "@material-ui/core";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./components/Home/Home";
+import Auth from "./components/Auth/Auth";
+import PostDetail from "./components/PostDetail.js/PostDetail";
 
 const App = () => {
-  let classes = useStyles();
-  let dispatch = useDispatch();
-  let [currentId, setCurrentId] = useState(0);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch, currentId]);
+  const user=JSON.parse(localStorage.getItem('profile'))
+  console.log(user);
   return (
     <>
-      <Container maxWidth="lg">
-        <AppBar position="static" color="inherit" className={classes.appBar}>
-          <Typography className={classes.heading} variant="h2" align="center">
-            Memories
-          </Typography>
-          <img
-            className={classes.image}
-            src={memories}
-            alt="Memories"
-            height="60"
-          />
-        </AppBar>
-        <Grow in>
-          <Container>
-            <Grid
-              container
-              justifyContent="space-between"
-              className={classes.mainContainer}
-              spacing={3}
-            >
-              <Grid item xs={12} sm={7} md={8}>
-                <Posts setCurrentId={setCurrentId} />
-              </Grid>
-              <Grid item xs={12} sm={5} md={4}>
-                <Form currentId={currentId} setCurrentId={setCurrentId} />
-              </Grid>
-            </Grid>
-          </Container>
-        </Grow>
-      </Container>
+      <Router>
+        <Container maxWidth="xl">
+          <Navbar />
+          <Routes>
+            <Route path="/" exact element={<Navigate replace to="/posts"/>} />
+            <Route path="/posts" exact element={<Home />} />
+            <Route path="/posts/search" exact element={<Home />} />
+            <Route path="/posts/:id"  exact element={<PostDetail />} />
+            <Route path="/auth" exact element={user!=null?<Navigate replace to="/posts"/>:<Auth/>}/>
+          </Routes>
+        </Container>
+      </Router>
     </>
   );
 };

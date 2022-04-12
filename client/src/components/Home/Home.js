@@ -35,9 +35,7 @@ const Home = () => {
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch, currentId]);
+ 
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {

@@ -18,7 +18,7 @@ const App = () => {
     <>
       <Router>
         <Container maxWidth="xl">
-          <Navbar />
+          <Navbar  />
           <Routes>
             <Route path="/" exact element={<Navigate replace to="/posts"/>} />
             <Route path="/posts" exact element={<Home />} />

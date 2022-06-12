@@ -1,12 +1,10 @@
-// import 'dotenv/config' 
+import 'dotenv/config'
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/users.js";
-
-console.log(process.env.PORT);
 
 const app = express();
 
@@ -18,11 +16,10 @@ app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
-    res.json("App is running");
+    res.send("App is running");
 });
 
-// const CONNECION_URL = process.env.CONNECTION_URL;
-const CONNECION_URL = "mongodb+srv://raj819314:raj@570482@cluster0.ig0pj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const CONNECION_URL = process.env.DB; 
 const PORT = process.env.PORT || 5000;
 
 mongoose
